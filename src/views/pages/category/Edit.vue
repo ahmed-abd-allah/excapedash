@@ -239,7 +239,7 @@ export default {
           .post(`/resourses/image`, form_data, {
             headers: { "Content-Type": "multipart/form-data" },
           })
-          .then((response) => {
+          .then((response) => { 
             this.item.image = response.data.url;
             console.log(response);
             this.updateCategory();
