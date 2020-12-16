@@ -89,7 +89,7 @@ export default {
 <style>
 .vs-card--header {
   /* padding: 0px !important; */
-  background-color: #C81F57 !important;
+  background-color: #2a72dd !important;
 }
 .snotify {
   z-index: 99999 !important;

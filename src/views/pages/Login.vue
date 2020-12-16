@@ -19,7 +19,7 @@
                 >
                   <!---->
                   <div class="con-img vs-avatar--con-img">
-                    <img src="@/assets/images/logo/logo.jpg" alt />
+                    <img src="@/assets/images/logo/logo.png" alt />
                   </div>
                 </div>
 
@@ -37,7 +37,7 @@
                       icon-no-border
                       icon="icon icon-phone"
                       icon-pack="feather"
-                      label-placeholder="رقم الهاتف"
+                      label-placeholder="البريد الالكتروني"
                       v-model="loginForm.email"
                       class="w-full"
                     />

@@ -7,7 +7,7 @@
         class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer"
         @click="navigate_to_detail_view(item._id)"
       >
-        <img v-if="item.photo" :src="item.photo" :alt="item.nameAr" class="grid-view-img px-4" />
+        <img v-if="item.image" :src="item.image" :alt="item.nameAr" class="grid-view-img px-4" />
         <img
           v-else
           src="@/assets/images/pages/no-img.png"
@@ -20,9 +20,9 @@
         <div class="my-4">
           <h6
             class="truncate font-semibold mb-1 hover:text-primary cursor-pointer"
-          >{{ item.name }}</h6>
-          <!-- <p class="item-description truncate text-sm">{{ item.nameAr }}</p> -->
-          <p class="item-description truncate text-sm">{{ item.name }}</p>
+          >{{ item.nameAr }}</h6>
+          <!-- <p class="item-description truncate text-sm">{{ item.nameArAr }}</p> -->
+          <p class="item-description truncate text-sm">{{ item.contentAr }}</p>
         </div>
       </div>
 

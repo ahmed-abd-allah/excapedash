@@ -14,12 +14,12 @@
     <p>
       <span></span>
       <span>{{ new Date().getFullYear() }}</span>
-      <a href="http://www.hamza.solutions/" target="_blank" rel="nofollow">&nbsp;Hamza</a>
+      <a href="" target="_blank" rel="nofollow">&nbsp;Excape</a>
       <span class="hidden sm:inline-block">&copy;, All rights Reserved</span>
     </p>
     <span class="md:flex hidden items-center">
-      <span>كيان</span>
-      <feather-icon icon="HeartIcon" svgClasses="stroke-current text-danger w-6 h-6" class="ml-2" />
+      <span></span>
+      <feather-icon icon="HeartIcon" svgClasses="stroke-current text-prymim w-6 h-6" class="ml-2" />
     </span>
   </footer>
 </template>

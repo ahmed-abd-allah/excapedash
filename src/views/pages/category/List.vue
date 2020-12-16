@@ -42,7 +42,7 @@ export default {
     getCategories() {
       this.$vs.loading();
       axiosApi
-        .get(`/category`)
+        .get(`/service`)
         .then(res => {
           this.$vs.loading.close();
           this.items = res.data.data;

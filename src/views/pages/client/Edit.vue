@@ -7,7 +7,7 @@
       <div class="relative">
         <div class="cover-container rounded-t-lg">
           <img
-            :src="user.photo"
+            src="@/assets/images/bg-user.jpg"
             alt="user-profile-cover"
             class="responsive block user-profile-cover"
           />
@@ -17,15 +17,17 @@
             <vs-avatar class="user-profile-img" :src="user.photo" size="85px" />
           </div>
           <div class="profile-actions pointer-events-auto flex">
-            <vs-button
+            <!-- <vs-button
               icon-pack="feather"
               radius
               icon="icon-edit-2"
-            ></vs-button>
+            ></vs-button> -->
             <vs-button
+            @click="deleteUser"
               icon-pack="feather"
               radius
-              icon="icon-settings"
+              color="danger"
+              icon="icon-delete"
               class="ml-2 lg:ml-4"
             ></vs-button>
           </div>
@@ -124,6 +126,57 @@ export default {
     },
   },
   methods: {
+       
+       deleteUser(status) {
+      this.$snotify.confirm("  حذف المستخدم   ", "هل أنت متأكد ؟", {
+        showProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        buttons: [
+          {
+            text: "موافق",
+            action: toast => {
+              axiosApi
+                .delete(`/user/${this.$route.params.id}`)
+                .then(response => {
+                  this.$vs.loading.close();
+                  this.$snotify.remove(toast.id);
+
+                  this.$vs.notify({
+                    title: "حسنا ",
+                    text: "تم الحذف بنجاح",
+                    color: "success",
+                    iconPack: "feather",
+                    position: "top-right",
+                    icon: "icon-check"
+                  });
+                })
+                .catch(e => {
+                  this.$vs.loading.close();
+                    console.log(e);
+                  this.$vs.notify({
+                    title: "ًعفوا",
+                    text: "حدث خطئ تاكد من اتصال بالانترنت ",
+                    color: "warning",
+                    iconPack: "feather",
+                    position: "top-right",
+                    icon: "icon-alert-circle"
+                  });
+                  console.log(e);
+                });
+            },
+            bold: true
+          },
+          {
+            text: "إلغاء",
+            action: toast => {
+              this.$snotify.remove(toast.id);
+            },
+            bold: true
+          }
+        ]
+      });
+    },
     getUser() {
       this.$vs.loading();
       axiosApi

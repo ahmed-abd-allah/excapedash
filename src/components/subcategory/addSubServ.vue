@@ -1,24 +1,30 @@
 <template>
-  <vs-row vs-justify="center">
-    <vs-col
-      type="flex"
-      vs-justify="center"
-      vs-align="center"
-      vs-lg="6"
-      vs-sm="12"
-      v-if="item"
+  <div class="">
+
+      <vs-button
+        @click="activePrompt = true"
+        color="success"
+        type="flat"
+        icon-pack="feather"
+        icon="icon-plus"
+        class="p-0"
+      ></vs-button>
+
+
+    <vs-prompt
+      color="danger"
+      :buttons-hidden="true"
+      title="خدمة فرعية "
+      :active.sync="activePrompt"
     >
-      <vs-card>
-        <div slot="header">
-          <h2 class="text-white">تعديل قسم {{ name }}</h2>
-        </div>
+      <div class="con-exemple-prompt">
         <div id="div-with-loading">
           <vs-input
             autocomplete="off"
             v-validate="'required'"
             name="name"
             label-placeholder="الإسم باللغة العربية"
-            v-model="item.nameAr"
+            v-model="subcat.nameAr"
             class="w-full"
           />
 
@@ -31,7 +37,7 @@
             v-validate="'required'"
             name="nameEn"
             label-placeholder="الإسم باللغة الإنجليزية"
-            v-model="item.nameEn"
+            v-model="subcat.nameEn"
             class="w-full mt-8"
           />
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
@@ -42,7 +48,7 @@
             v-validate="'required'"
             name="contentAr"
             label-placeholder="الوصف باللغة العربية"
-            v-model="item.contentAr"
+            v-model="subcat.contentAr"
             class="w-full mt-8"
           />
           <span class="text-danger text-sm" v-show="errors.has('contentAr')">{{
@@ -53,7 +59,7 @@
             v-validate="'required'"
             name="contentEn"
             label-placeholder="الوصف باللغة الإنجليزية"
-            v-model="item.contentEn"
+            v-model="subcat.contentEn"
             class="w-full mt-8"
           />
           <span class="text-danger text-sm" v-show="errors.has('contentEn')">{{
@@ -80,53 +86,31 @@
               <img :src="url" style="max-width: 100%; max-height: 80%" />
             </div>
           </div>
-          <div class="centerx">
-            <subcat :id="$route.params.id" />
-          </div>
-
-          <vs-divider />
-          <div class="vx-row">
-            <div class="vx-col w-full">
-              <div class="flex flex-wrap items-start mb-4">
-                <vs-button
-                  class="mr-4 mb-4"
-                  icon-pack="feather"
-                  icon="icon-edit"
-                  @click="uploadImage()"
-                  >تعديل</vs-button
-                >
-
-                <vs-button
-                  class="mr-4 mb-4"
-                  icon-pack="feather"
-                  icon="icon-trash-2"
-                  color="danger"
-                  @click="deleteCategory"
-                  >حذف</vs-button
-                >
-                <vs-button
-                  class="mb-4"
-                  icon-pack="feather"
-                  icon="icon-x"
-                  color="success"
-                  @click="
-                    $router.push({ path: '/category' }).catch((err) => {})
-                  "
-                  >إلغاء</vs-button
-                >
-              </div>
-            </div>
+        </div>
+      
+      </div>
+      <div class="vx-row">
+        <div class="vx-col w-full">
+          <div class="flex flex-wrap subcats-start mb-4">
+            <vs-button
+              
+              class="mr-4 mb-4 mt-5"
+              icon-pack="feather"
+              icon="icon-edit"
+              @click="uploadImage()"
+              >اضافة</vs-button
+            >
+         
           </div>
         </div>
-      </vs-card>
-    </vs-col>
-  </vs-row>
+      </div>
+    </vs-prompt>
+  </div>
 </template>
 
 <script>
-import axiosApi from "../../../axios";
+import axiosApi from "../../axios";
 import { Validator } from "vee-validate";
-import subcat from "@/components/subcategory/subcat.vue";
 const dict = {
   custom: {
     name: {
@@ -141,98 +125,34 @@ const dict = {
 // register custom messages
 Validator.localize("ar", dict);
 export default {
-  components: {
-    subcat,
-  },
+  props: ["id"],
   data() {
     return {
-      item: null,
+      subcategories: [],
+      subcat: null,
       name: "",
       photo: null,
       url: "",
-
+      activePrompt: false,
+      updateCategory: false,
       subcat: {
         name: "",
       },
     };
   },
   created() {
-    this.getCategory(this.$route.params.id);
   },
 
   methods: {
-    fileSelected(e) {
+        fileSelected(e) {
       this.url = "";
       this.photo = e.target.files[0];
       this.url = URL.createObjectURL(this.photo);
     },
-    deleteCategory() {
-      this.$snotify.confirm(
-        "في حالة مسح البيانات لا يمكنك إسترجاعها مرة أخري",
-        "هل أنت متأكد ؟",
-        {
-          showProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          buttons: [
-            {
-              text: "موافق",
-              action: (toast) => {
-                this.$snotify.remove(toast.id);
-                this.$vs.loading();
-                axiosApi
-                  .delete(`/service/${this.$route.params.id}`)
-                  .then((response) => {
-                    this.$vs.loading.close();
-                    this.$router.push({ path: "/category" });
-
-                    this.$vs.notify({
-                      title: "حسنا ",
-                      text: "تم مسح الخدمة  بنجاح",
-                      color: "success",
-                      iconPack: "feather",
-                      position: "top-right",
-                      icon: "icon-check",
-                    });
-                  })
-                  .catch((e) => {
-                    this.$vs.loading.close();
-                  });
-              },
-              bold: true,
-            },
-            {
-              text: "إلغاء",
-              action: (toast) => {
-                this.$snotify.remove(toast.id);
-              },
-              bold: true,
-            },
-          ],
-        }
-      );
-    },
-    getCategory() {
-      this.$vs.loading();
-      axiosApi
-        .get(`/service/${this.$route.params.id}`)
-        .then((res) => {
-          this.$vs.loading.close();
-          console.log(res);
-
-          this.item = res.data.data;
-          this.url = this.item.image;
-        })
-        .catch((e) => {
-          console.log(e);
-          this.$vs.loading.close();
-          // this.$router.push({ path: "/category" });
-        });
-    },
-    async uploadImage() {
+  async uploadImage() {
       this.$vs.loading();
 
-      if (this.photo != null&&this.item.image.includes("res.cloudinary.com")) {
+      if (this.photo != null){
         let form_data = new FormData();
         form_data.append("image", this.photo);
         await axiosApi
@@ -240,16 +160,14 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           })
           .then((response) => {
-            this.item.image = response.data.url;
+            this.subcat.image = response.data.url;
             console.log(response);
-            this.updateCategory();
+            this.addSubCategory();
           })
           .catch((e) => {
             console.log(e);
           });
-      } else if(this.photo == null&&this.item.image.includes("res.cloudinary.com")) {
-        this.updateCategory()
-      }
+      } 
       else {
         this.$vs.loading.close();
 
@@ -263,27 +181,32 @@ export default {
         });
       }
     },
-    updateCategory() {
+    addSubCategory() {
       this.$validator.validateAll().then((result) => {
         if (result) {
+            this.subcat.serviceId=this.id
           this.$vs.loading();
-
           axiosApi
-            .patch(`/service/${this.$route.params.id}`, this.item)
+            .post(`subservice`, this.subcat)
             .then((response) => {
               this.$vs.loading.close();
 
               this.$vs.notify({
                 title: "حسنا ",
-                text: "تم تعديل بيانات الخدمة   بنجاح",
+                text: "تم إضافة الخدمة الفرعية الجديدة بنجاح",
                 color: "success",
                 iconPack: "feather",
-                position: "top-left",
+                position: "top-right",
                 icon: "icon-check",
               });
+
+              this.activePrompt = false;
+              this.$parent.addItim(response.data);
+
             })
             .catch((e) => {
               this.$vs.loading.close();
+              this.activePrompt = false;
 
               this.$vs.notify({
                 title: "ًعفوا",
@@ -295,10 +218,16 @@ export default {
               });
               console.log(e);
             });
+        } else {
+          // form have errors
         }
       });
     },
-  },
+
+
+
+    },
+  
 };
 </script>
 

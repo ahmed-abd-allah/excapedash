@@ -35,14 +35,14 @@
             >
               <!---->
               <div class="con-img vs-avatar--con-img">
-                <img src="@/assets/images/logo/logo.jpg" alt />
+                <img src="@/assets/images/logo/logo.png" alt />
               </div>
             </div>
             <span
               class="vx-logo-text text-primary ml-2"
               v-show="isMouseEnter || !reduce"
               v-if="title"
-            >كيان </span>
+            >Excape Egypt </span>
           </router-link>
           <!-- /Logo -->
 

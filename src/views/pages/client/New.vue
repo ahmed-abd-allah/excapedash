@@ -8,7 +8,7 @@
       vs-sm="12"
     >
       <vs-card>
-        <div slot="header" class>
+        <div slot="header" class="">
           <h2 class="text-white">إضافة مستخدم</h2>
         </div>
 
@@ -177,11 +177,11 @@ export default {
             console.log(e);
           });
       } else {
-              this.$vs.loading.close();
+        this.$vs.loading.close();
 
         this.$vs.notify({
           title: "ًعفوا",
-          text: "من فضلك  ادخل صورة المنتج ",
+          text: "من فضلك  ادخل صورة المستخدم ",
           color: "warning",
           iconPack: "feather",
           position: "top-right",
