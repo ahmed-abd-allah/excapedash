@@ -11,7 +11,7 @@
         <img
           v-else
           src="@/assets/images/pages/no-img.png"
-          :alt="item.name"
+          :alt="item.nameAr"
           class="grid-view-img px-4"
         />
       </div>
@@ -21,7 +21,7 @@
           <h6
             class="truncate font-semibold mb-1 hover:text-primary cursor-pointer"
           >{{ item.nameAr }}</h6>
-          <!-- <p class="item-description truncate text-sm">{{ item.nameArAr }}</p> -->
+          <p class="item-description truncate text-sm">{{ item.titleAr }}</p>
           <p class="item-description truncate text-sm">{{ item.contentAr }}</p>
         </div>
       </div>

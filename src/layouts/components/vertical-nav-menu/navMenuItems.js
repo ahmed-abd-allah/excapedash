@@ -86,55 +86,55 @@ export default [{
 
         ]
     },
-    // {
-    //   url: null,
-    //   name: ' المناطق ',
-    //   icon: 'TargetIcon',
-
-    //   submenu: [{
-    //       url: '/area/new',
-    //       name: 'إضافة منطقة جديد',
-    //       slug: 'area-new',
-    //     },
-    //     {
-    //       url: '/area',
-    //       name: 'عرض كل المناطق',
-    //       slug: '',
-    //     },
-
-    //   ]
-    // },
     {
         url: null,
-        name: ' المنتجات ',
+        name: ' المقالات ',
+        icon: 'TargetIcon',
+
+        submenu: [{
+                url: '/post/new',
+                name: 'إضافة مقال  جديد',
+                slug: 'post-new',
+            },
+            {
+                url: '/post',
+                name: 'عرض كل المقالات',
+                slug: '',
+            },
+
+        ]
+    },
+    {
+        url: null,
+        name: ' الاعمال السابقة  ',
         icon: 'ServerIcon',
 
         submenu: [{
                 url: '/products/new',
-                name: 'إضافة منتج جديد',
+                name: 'إضافة  جديد',
                 slug: 'products-new',
             },
             {
                 url: '/products',
-                name: 'عرض كل المنتجات',
+                name: 'عرض الكل ',
                 slug: '',
             },
 
         ]
     },
-    {
-        url: null,
-        name: ' الطلبات ',
-        icon: 'CloudRainIcon',
+    // {
+    //     url: null,
+    //     name: ' الطلبات ',
+    //     icon: 'CloudRainIcon',
 
-        submenu: [{
-                url: '/orders',
-                name: 'عرض كل الطلبات ',
-                slug: '',
-            },
+    //     submenu: [{
+    //             url: '/orders',
+    //             name: 'عرض كل الطلبات ',
+    //             slug: '',
+    //         },
 
-        ]
-    },
+    //     ]
+    // },
     // {
     //   url: null,
     //   name: 'مكونات الوجبات',

@@ -5,7 +5,7 @@
           <div class="items-grid-view vx-row match-height" ref="loading" id="loading">
             <div
               class="vx-col lg:w-1/4 sm:w-1/2 w-full"
-              v-for="item in products"
+              v-for="item in works"
               :key="item._id"
             >
               <item-grid-view :item="item" url="edit-products">
@@ -50,31 +50,31 @@ export default {
   },
   data() {
     return {
-      products: null,
+      works: null,
       Current: 1,
       TotalPages: 0,
       
     };
   },
   created() {
-    this.getProducts();
+    this.getworks();
 
   },
   watch: {
     Current(newC,oldC){
       if (newC!=oldC) {
-        this.getProducts()
+        this.getworks()
       }
     }
   },
   methods: {
-    async getProducts() {
+    async getworks() {
       this.$vs.loading();
       await axiosApi
-        .get(`/products?page=${this.Current}`)
+        .get(`/works?page=${this.Current}`)
         .then(res => {
           this.$vs.loading.close();
-          this.products = res.data.data;
+          this.works = res.data.data;
           this.TotalPages = res.data.totalPages;
         })
         .catch(e => {

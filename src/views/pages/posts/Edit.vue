@@ -10,7 +10,7 @@
     >
       <vs-card>
         <div slot="header">
-          <h2 class="text-white">تعديل الخدمة {{ name }}</h2>
+          <h2 class="text-white">تعديل المقال</h2>
         </div>
         <div id="div-with-loading">
           <vs-input
@@ -18,7 +18,7 @@
             v-validate="'required'"
             name="name"
             label-placeholder="الإسم باللغة العربية"
-            v-model="item.nameAr"
+            v-model="item.titleAr"
             class="w-full"
           />
 
@@ -31,28 +31,28 @@
             v-validate="'required'"
             name="nameEn"
             label-placeholder="الإسم باللغة الإنجليزية"
-            v-model="item.nameEn"
+            v-model="item.titleEn"
             class="w-full mt-8"
           />
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
             errors.first("nameEn")
           }}</span>
-          <vs-input
+              <vs-textarea
             autocomplete="off"
             v-validate="'required'"
             name="contentAr"
-            label-placeholder="الوصف باللغة العربية"
+            placeholder="الوصف باللغة العربية"
             v-model="item.contentAr"
-            class="w-full mt-8"
+            class="w-full w mt-8"
           />
           <span class="text-danger text-sm" v-show="errors.has('contentAr')">{{
             errors.first("contentAr")
           }}</span>
-          <vs-input
+              <vs-textarea
             autocomplete="off"
             v-validate="'required'"
             name="contentEn"
-            label-placeholder="الوصف باللغة الإنجليزية"
+            placeholder="الوصف باللغة الإنجليزية"
             v-model="item.contentEn"
             class="w-full mt-8"
           />
@@ -81,7 +81,6 @@
             </div>
           </div>
           <div class="centerx">
-            <subcat :id="$route.params.id" />
           </div>
 
           <vs-divider />
@@ -181,7 +180,7 @@ export default {
                 this.$snotify.remove(toast.id);
                 this.$vs.loading();
                 axiosApi
-                  .delete(`/service/${this.$route.params.id}`)
+                  .delete(`/posts/${this.$route.params.id}`)
                   .then((response) => {
                     this.$vs.loading.close();
                     this.$router.push({ path: "/category" });
@@ -215,7 +214,7 @@ export default {
     getCategory() {
       this.$vs.loading();
       axiosApi
-        .get(`/service/${this.$route.params.id}`)
+        .get(`/posts/${this.$route.params.id}`)
         .then((res) => {
           this.$vs.loading.close();
           console.log(res);
@@ -269,7 +268,7 @@ export default {
           this.$vs.loading();
 
           axiosApi
-            .patch(`/service/${this.$route.params.id}`, this.item)
+            .patch(`/posts/${this.$route.params.id}`, this.item)
             .then((response) => {
               this.$vs.loading.close();
 

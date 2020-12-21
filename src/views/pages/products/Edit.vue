@@ -5,136 +5,99 @@
       vs-justify="center"
       vs-align="center"
       vs-lg="9"
-      vs-sm="12"
+      vs-sm="12" v-if="product!=null"
     >
-      <vs-card v-if="product != null">
-        <div slot="header">
+      <vs-card>
+        <div slot="header" class>
           <h2 class="text-white">تعديل</h2>
         </div>
 
         <div class="vx-row">
-          <div class="vx-col sm:w-1/3 w-full mb-2">
-            <h6>اختر القسم</h6>
+          <div class="vx-col sm:w-1/2 w-full mb-2">
+            <h6>اختر نوع الخدمة</h6>
             <v-select
               name="area"
               v-validate="'required'"
               v-model="category"
-              label="name"
+              label="nameAr"
               :options="categories"
             ></v-select>
             <span class="text-danger text-sm" v-show="errors.has('area')">{{
               errors.first("area")
             }}</span>
           </div>
-          <div v-if="subCategories != null" class="vx-col sm:w-1/3 w-full mb-2">
-            <h6>اختر القسم الفرعي</h6>
+          <div
+            v-if="subCategories != null"
+            class="vx-col sm:w-1/3 w-full sm:w-1/3 mb-2"
+          >
+            <h6>اختر الخدمة الفرعية</h6>
             <v-select
               name="cluster"
               v-validate="'required'"
               v-model="subCategory"
-              label="name"
+              label="nameAr"
               :options="subCategories"
             ></v-select>
             <span class="text-danger text-sm" v-show="errors.has('cluster')">{{
               errors.first("cluster")
             }}</span>
           </div>
-          <div class="vx-col sm:w-1/3 w-full mb-2"></div>
-          <div class="vx-col w-full mb-2"></div>
-          <div class="vx-col sm:w-1/3 w-full mb-2">
-            <vs-input
-              autocomplete="off"
-              v-validate="'required'"
-              name="name"
-              label-placeholder="الإسم"
-              v-model="product.name"
-              class="w-full"
-            />
+          <div class="w-full mt-5"></div>
+          <vs-input
+            autocomplete="off"
+            v-validate="'required'"
+            name="name"
+            label-placeholder="الإسم باللغة العربية"
+            v-model="product.nameAr"
+            class="w-full sm:w-1/3 m-2"
+          />
 
-            <span class="text-danger text-sm" v-show="errors.has('name')">{{
-              errors.first("name")
-            }}</span>
-          </div>
-          <div class="vx-col sm:w-1/3 w-full mb-2">
-            <vs-input
-              autocomplete="off"
-              v-validate="'required'"
-              name="color"
-              label-placeholder="اللون"
-              v-model="product.color"
-              class="w-full"
-            />
+          <span class="text-danger text-sm" v-show="errors.has('name')">{{
+            errors.first("name")
+          }}</span>
 
-            <span class="text-danger text-sm" v-show="errors.has('color')">{{
-              errors.first("color")
-            }}</span>
-          </div>
-          <div class="vx-col sm:w-1/3 w-full mb-2">
-            <vs-input
-              autocomplete="off"
-              v-validate="'required|numeric'"
-              name="itemPrice"
-              label-placeholder="السعر "
-              v-model="product.price"
-              class="w-full"
-            />
-            <span
-              class="text-danger text-sm"
-              v-show="errors.has('itemPrice')"
-              >{{ errors.first("itemPrice") }}</span
-            >
-          </div>
-
-          <div class="vx-col sm:w-1/3 w-full mb-2">
-            <vs-input
-              autocomplete="off"
-              v-validate="'required|numeric'"
-              name="quantity"
-              label-placeholder="الكميه "
-              v-model="product.quantity"
-              class="w-full"
-            />
-            <span class="text-danger text-sm" v-show="errors.has('quantity')">{{
-              errors.first("quantity")
-            }}</span>
-          </div>
-          <div class="vx-col sm:w-1/3 w-full mb-2">
-            <vs-input
-              autocomplete="off"
-              v-validate="'required|numeric'"
-              name="tax"
-              label-placeholder="الضريبة "
-              v-model="product.tax"
-              class="w-full"
-            />
-            <span class="text-danger text-sm" v-show="errors.has('tax')">{{
-              errors.first("tax")
-            }}</span>
-          </div>
-          <div class="vx-col sm:w-1/6 w-full d-flex align-items-bottom">
+          <vs-input
+            autocomplete="off"
+            v-validate="'required'"
+            name="nameEn"
+            label-placeholder="الإسم باللغة الإنجليزية"
+            v-model="product.nameEn"
+            class="w-full sm:w-1/3 m-2"
+          />
+          <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
+            errors.first("nameEn")
+          }}</span>
+          <div class="w-full"></div>
+          <div class="w-full sm:w-1/3 m-2">
             <div class="vs-row">
-              <span> متاح في المخزن </span>
-              <vs-switch color="success" v-model="product.available">
-              </vs-switch>
+              <vs-textarea
+                autocomplete="off"
+                v-validate="'required'"
+                name="descAr"
+                placeholder="الوصف باللغة العربية"
+                v-model="product.descAr"
+                class="w-full"
+              />
+              <span class="text-danger text-sm" v-show="errors.has('descAr')">{{
+                errors.first("descAr")
+              }}</span>
             </div>
           </div>
 
-          <div class="vx-col w-full mb-2"></div>
-          <div class="vx-col sm:w-1/3 w-full mb-2">
-            <vs-textarea
-              autocomplete="off"
-              v-validate="'required'"
-              name="description"
-              label="الوصف "
-              v-model="product.desc"
-              class="w-full"
-            />
-
-            <span
-              class="text-danger text-sm"
-              v-show="errors.has('description')"
-              >{{ errors.first("description") }}</span
-            >
+          <div class="w-full sm:w-1/3 m-2">
+            <div class="vs-row">
+              <vs-textarea
+                autocomplete="off"
+                v-validate="'required'"
+                name="descEn"
+                placeholder="الوصف باللغة الإنجليزية"
+                v-model="product.descEn"
+                class="w-full"
+              />
+              <span class="text-danger text-sm" v-show="errors.has('descEn')">{{
+                errors.first("descEn")
+              }}</span>
+            </div>
           </div>
         </div>
         <div class="con-img-upload">
@@ -153,10 +116,7 @@
                 >cloud_upload</i
               >
             </button>
-            <img
-              :src="product.image"
-              style="max-width: 100%; max-height: 80%"
-            />
+            <img :src="product.image" style="max-width: 100%; max-height: 80%" />
           </div>
         </div>
           <div class="vx-row">
@@ -192,7 +152,6 @@
             </div>
           </div>
 
-        <!-- </form> -->
       </vs-card>
     </vs-col>
   </vs-row>
@@ -269,7 +228,7 @@ export default {
             console.log(e);
           });
       } 
-      else if(this.product.image.includes("res.cloudinary.com")){
+      else if (this.photo == null&& this.product.image.includes("res.cloudinary.com")){
             this.updateProduct();
 
       }
@@ -289,10 +248,10 @@ export default {
     updateProduct() {
       this.$validator.validateAll().then((result) => {
         if (result ) {
-          this.product.catId = this.category._id;
-          this.product.subCatId = this.subCategory._id;
+              this.product.serviceId = this.category._id;
+          this.product.subServiceId = this.subCategory._id;
           axiosApi
-            .patch(`/products/${this.product._id}`, this.product)
+            .patch(`/works/${this.product._id}`, this.product)
             .then((response) => {
               this.$router.push({ path: `/products` });
 
@@ -300,7 +259,7 @@ export default {
 
               this.$vs.notify({
                 title: "حسنا ",
-                text: "تم تعديل المنتج   بنجاح",
+                text: "تم التعديل    ",
                 color: "success",
                 iconPack: "feather",
                 position: "top-right",
@@ -347,7 +306,7 @@ export default {
                 this.$snotify.remove(toast.id);
                 this.$vs.loading();
                 axiosApi
-                  .delete(`/products/${this.$route.params.id}`)
+                  .delete(`/works/${this.$route.params.id}`)
                   .then((response) => {
                     this.$vs.loading.close();
                     this.$router.push({ path: "/products" });
@@ -381,13 +340,14 @@ export default {
     async getProuct() {
       this.$vs.loading();
       await axiosApi
-        .get(`/products/${this.$route.params.id}`)
+        .get(`/works/${this.$route.params.id}`)
         .then((res) => {
           this.$vs.loading.close();
           this.product = res.data.data;
-
           this.getcategories();
-          this.getSubcategories(this.product.catId);
+          this.getSubcategories(this.product.serviceId);
+          
+        
         })
         .catch((e) => {
           this.$vs.loading.close();
@@ -397,11 +357,11 @@ export default {
       this.$vs.loading();
 
       console.log(id);
-      axiosApi.get(`subcategory/category/${id}`).then((response) => {
+      axiosApi.get(`subservice/service/${id}`).then((response) => {
         console.log(response.data.data);
         this.subCategories = response.data.data;
         this.subCategory =
-          this.subCategories.find((e) => e._id == this.product.subCatId) ||
+          this.subCategories.find((e) => e._id == this.product.subServiceId) ||
           null;
         this.$vs.loading.close();
       });
@@ -410,12 +370,11 @@ export default {
     getcategories() {
       this.$vs.loading();
       axiosApi
-        .get(`category`)
+        .get(`service`)
         .then((response) => {
           this.categories = response.data.data;
-          this.category = this.categories.find(
-            (e) => e._id == this.product.catId
-          );
+          this.category=this.categories.find(e=>e._id==this.product.serviceId)
+
           this.$vs.loading.close();
         })
         .catch((e) => {
