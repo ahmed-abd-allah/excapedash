@@ -67,8 +67,6 @@
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
             errors.first("nameEn")
           }}</span>
-  
-
 
           <vs-input
             autocomplete="off"
@@ -91,7 +89,6 @@
                 v-model="product.descAr"
                 class="w-full"
               />
-         
             </div>
           </div>
 
@@ -239,9 +236,9 @@ export default {
       this.url = URL.createObjectURL(this.photo);
     },
     async uploadImage() {
-      this.$vs.loading();
-
       if (this.photo != null) {
+        this.$vs.loading();
+
         let form_data = new FormData();
         form_data.append("image", this.photo);
         await axiosApi
@@ -254,24 +251,24 @@ export default {
             this.addProduct();
           })
           .catch((e) => {
-              this.$vs.loading.close();
+            this.$vs.loading.close();
 
             console.log(e);
-              this.$vs.notify({
-          title: "ًعفوا",
-          text: "من فضلك  ادخل صورة المنتج ",
-          color: "warning",
-          iconPack: "feather",
-          position: "top-right",
-          icon: "icon-alert-circle",
-        });
+            this.$vs.notify({
+              title: "ًعفوا",
+              text: "من فضلك  ادخل الصورة  ",
+              color: "warning",
+              iconPack: "feather",
+              position: "top-right",
+              icon: "icon-alert-circle",
+            });
           });
       } else {
-              this.$vs.loading.close();
+        this.$vs.loading.close();
 
         this.$vs.notify({
           title: "ًعفوا",
-          text: "من فضلك  ادخل صورة المنتج ",
+          text: "من فضلك  ادخل الصورة  ",
           color: "warning",
           iconPack: "feather",
           position: "top-right",
@@ -300,7 +297,6 @@ export default {
                 icon: "icon-check",
               });
               this.$vs.loading.close();
-
             })
             .catch((e) => {
               this.$vs.loading.close();

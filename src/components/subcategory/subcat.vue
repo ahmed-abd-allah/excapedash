@@ -23,6 +23,7 @@
       :buttons-hidden="true"
       title="خدمة فرعية "
       :active.sync="activePrompt"
+      class="add-sub"
     >
       <div class="con-exemple-prompt">
         <div id="div-with-loading">
@@ -50,6 +51,61 @@
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
             errors.first("nameEn")
           }}</span>
+                   <div class="w-full">المميزات</div>
+          <div
+            class="w-full vx-row"
+            v-for="(feature, index) in subcat.features"
+            :key="index"
+          >
+            <vs-input
+              autocomplete="off"
+              v-validate="'required'"
+              :name="`sadd${index}`"
+              label-placeholder="الميزة بالعربية"
+              v-model="feature.nameAr"
+              class="w-full m-2"
+            />
+            <span
+              class="text-danger text-sm"
+              v-show="errors.has(`sadd${index}`)"
+              >{{ errors.first(`sadd${index}`) }}</span
+            >
+            <vs-input
+              autocomplete="off"
+              v-validate="'required'"
+              :name="`asdsad${index}`"
+              label-placeholder="الميزة بالانجليزية"
+              v-model="feature.nameEn"
+              class="w-full m-2"
+            />
+            <span
+              class="text-danger text-sm"
+              v-show="errors.has(`asdsad${index}`)"
+              >{{ errors.first(`asdsad${index}`) }}</span
+            >
+            <div class="w-full"></div>
+
+            <vs-button
+              radius
+              v-if="subcat.features.length > 1 && index > 0"
+              color="danger"
+              type="gradient"
+              class="mt-2"
+              @click="subcat.features.splice(index, 1)"
+              icon="remove_circle_outline"
+            >
+            </vs-button>
+          </div>
+          <div class="w-full">
+            <vs-button
+              radius
+              color="success"
+              type="gradient"
+              class="m-2"
+              icon="note_add"
+              @click="subcat.features.push({ nameAr: '', nameEn: '' })"
+            ></vs-button>
+          </div>
           <vs-input
             autocomplete="off"
             v-validate="'required'"

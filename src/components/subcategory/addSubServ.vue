@@ -1,21 +1,20 @@
 <template>
   <div class="">
-
-      <vs-button
-        @click="activePrompt = true"
-        color="success"
-        type="flat"
-        icon-pack="feather"
-        icon="icon-plus"
-        class="p-0"
-      ></vs-button>
-
+    <vs-button
+      @click="activePrompt = true"
+      color="success"
+      type="flat"
+      icon-pack="feather"
+      icon="icon-plus"
+      class="p-0"
+    ></vs-button>
 
     <vs-prompt
       color="danger"
       :buttons-hidden="true"
       title="خدمة فرعية "
       :active.sync="activePrompt"
+      class="add-sub"
     >
       <div class="con-exemple-prompt">
         <div id="div-with-loading">
@@ -43,6 +42,73 @@
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
             errors.first("nameEn")
           }}</span>
+          <vs-input
+            autocomplete="off"
+            v-validate="'decimal:3'"
+            name="price"
+            label-placeholder="السعر"
+            v-model="subcat.price"
+            class="w-full mt-8"
+          />
+          <span class="text-danger text-sm" v-show="errors.has('price')">{{
+            errors.first("price")
+          }}</span>
+          <div class="w-full">المميزات</div>
+          <div
+            class="w-full vx-row"
+            v-for="(feature, index) in subcat.features"
+            :key="index"
+          >
+            <vs-input
+              autocomplete="off"
+              v-validate="'required'"
+              :name="`sadd${index}`"
+              label-placeholder="الميزة بالعربية"
+              v-model="feature.nameAr"
+              class="w-full m-2"
+            />
+            <span
+              class="text-danger text-sm"
+              v-show="errors.has(`sadd${index}`)"
+              >{{ errors.first(`sadd${index}`) }}</span
+            >
+            <vs-input
+              autocomplete="off"
+              v-validate="'required'"
+              :name="`asdsad${index}`"
+              label-placeholder="الميزة بالانجليزية"
+              v-model="feature.nameEn"
+              class="w-full m-2"
+            />
+            <span
+              class="text-danger text-sm"
+              v-show="errors.has(`asdsad${index}`)"
+              >{{ errors.first(`asdsad${index}`) }}</span
+            >
+            <div class="w-full"></div>
+
+            <vs-button
+              radius
+              v-if="subcat.features.length > 1 && index > 0"
+              color="danger"
+              type="gradient"
+              class="mt-2"
+              @click="subcat.features.splice(index, 1)"
+              icon="remove_circle_outline"
+            >
+            </vs-button>
+          </div>
+          <div class="w-full">
+            <vs-button
+              radius
+              color="success"
+              type="gradient"
+              class="m-2"
+              icon="note_add"
+              @click="subcat.features.push({ nameAr: '', nameEn: '' })"
+            ></vs-button>
+          </div>
+
           <vs-input
             autocomplete="off"
             v-validate="'required'"
@@ -87,20 +153,17 @@
             </div>
           </div>
         </div>
-      
       </div>
       <div class="vx-row">
         <div class="vx-col w-full">
           <div class="flex flex-wrap subcats-start mb-4">
             <vs-button
-              
               class="mr-4 mb-4 mt-5"
               icon-pack="feather"
               icon="icon-edit"
               @click="uploadImage()"
               >اضافة</vs-button
             >
-         
           </div>
         </div>
       </div>
@@ -136,23 +199,27 @@ export default {
       activePrompt: false,
       updateCategory: false,
       subcat: {
-        name: "",
+        features: [
+          {
+            nameEn: "",
+            nameAr: "",
+          },
+        ],
       },
     };
   },
-  created() {
-  },
+  created() {},
 
   methods: {
-        fileSelected(e) {
+    fileSelected(e) {
       this.url = "";
       this.photo = e.target.files[0];
       this.url = URL.createObjectURL(this.photo);
     },
-  async uploadImage() {
+    async uploadImage() {
       this.$vs.loading();
 
-      if (this.photo != null){
+      if (this.photo != null) {
         let form_data = new FormData();
         form_data.append("image", this.photo);
         await axiosApi
@@ -167,8 +234,7 @@ export default {
           .catch((e) => {
             console.log(e);
           });
-      } 
-      else {
+      } else {
         this.$vs.loading.close();
 
         this.$vs.notify({
@@ -184,7 +250,7 @@ export default {
     addSubCategory() {
       this.$validator.validateAll().then((result) => {
         if (result) {
-            this.subcat.serviceId=this.id
+          this.subcat.serviceId = this.id;
           this.$vs.loading();
           axiosApi
             .post(`subservice`, this.subcat)
@@ -202,7 +268,6 @@ export default {
 
               this.activePrompt = false;
               this.$parent.addItim(response.data);
-
             })
             .catch((e) => {
               this.$vs.loading.close();
@@ -223,13 +288,14 @@ export default {
         }
       });
     },
-
-
-
-    },
-  
+  },
 };
 </script>
 
 <style>
+.add-sub .vs-dialog {
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 </style>
