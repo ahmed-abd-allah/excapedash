@@ -67,20 +67,41 @@
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
             errors.first("nameEn")
           }}</span>
+                    <vs-input
+            autocomplete="off"
+            v-validate="'required'"
+            name="name"
+            label-placeholder="الإسم باللغة العربية"
+            v-model="product.nameAr"
+            class="w-full sm:w-1/3 m-2"
+          />
+
+          <span class="text-danger text-sm" v-show="errors.has('name')">{{
+            errors.first("name")
+          }}</span>
+
+          <vs-input
+            autocomplete="off"
+            v-validate="'required'"
+            name="nameEn"
+            label-placeholder="رابط المشروع "
+            v-model="product.link"
+            class="w-full sm:w-1/3 m-2"
+          />
+          <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
+            errors.first("nameEn")
+          }}</span>
           <div class="w-full"></div>
           <div class="w-full sm:w-1/3 m-2">
             <div class="vs-row">
               <vs-textarea
                 autocomplete="off"
-                v-validate="'required'"
                 name="descAr"
                 placeholder="الوصف باللغة العربية"
                 v-model="product.descAr"
                 class="w-full"
               />
-              <span class="text-danger text-sm" v-show="errors.has('descAr')">{{
-                errors.first("descAr")
-              }}</span>
+         
             </div>
           </div>
 
@@ -88,7 +109,6 @@
             <div class="vs-row">
               <vs-textarea
                 autocomplete="off"
-                v-validate="'required'"
                 name="descEn"
                 placeholder="الوصف باللغة الإنجليزية"
                 v-model="product.descEn"
@@ -103,7 +123,7 @@
         <div class="con-img-upload">
           <div class="con-input-upload">
             <input name="photo" type="file" @change="fileSelected" />
-            <span class="text-input">حدد صورة المنتج</span>
+            <span class="text-input">حدد صورة الخدمة</span>
             <span class="input-progress" style="width: 0%"></span>
 
             <button
