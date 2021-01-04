@@ -67,29 +67,19 @@
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
             errors.first("nameEn")
           }}</span>
-                    <vs-input
-            autocomplete="off"
-            v-validate="'required'"
-            name="name"
-            label-placeholder="الإسم باللغة العربية"
-            v-model="product.nameAr"
-            class="w-full sm:w-1/3 m-2"
-          />
+  
 
-          <span class="text-danger text-sm" v-show="errors.has('name')">{{
-            errors.first("name")
-          }}</span>
 
           <vs-input
             autocomplete="off"
             v-validate="'required'"
-            name="nameEn"
+            name="link"
             label-placeholder="رابط المشروع "
             v-model="product.link"
             class="w-full sm:w-1/3 m-2"
           />
-          <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
-            errors.first("nameEn")
+          <span class="text-danger text-sm" v-show="errors.has('link')">{{
+            errors.first("link")
           }}</span>
           <div class="w-full"></div>
           <div class="w-full sm:w-1/3 m-2">
