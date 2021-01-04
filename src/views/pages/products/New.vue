@@ -254,9 +254,21 @@ export default {
             this.addProduct();
           })
           .catch((e) => {
+              this.$vs.loading.close();
+
             console.log(e);
+              this.$vs.notify({
+          title: "ًعفوا",
+          text: "من فضلك  ادخل صورة المنتج ",
+          color: "warning",
+          iconPack: "feather",
+          position: "top-right",
+          icon: "icon-alert-circle",
+        });
           });
       } else {
+              this.$vs.loading.close();
+
         this.$vs.notify({
           title: "ًعفوا",
           text: "من فضلك  ادخل صورة المنتج ",
@@ -287,6 +299,8 @@ export default {
                 position: "top-right",
                 icon: "icon-check",
               });
+              this.$vs.loading.close();
+
             })
             .catch((e) => {
               this.$vs.loading.close();

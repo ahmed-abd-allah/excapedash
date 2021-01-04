@@ -132,7 +132,7 @@ export default {
 
               this.$vs.notify({
                 title: "مرحبا ",
-                text: "مرحبا بك في لوحة تحكم  كيان ",
+                text: "مرحبا بك في لوحة تحكم    ",
                 color: "success",
                 iconPack: "feather",
                 position: "top-right",
