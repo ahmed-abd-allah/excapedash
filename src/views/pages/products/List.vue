@@ -71,7 +71,7 @@ export default {
     async getworks() {
       this.$vs.loading();
       await axiosApi
-        .get(`/works?page=${this.Current}`)
+        .get(`/works?page=${this.Current}&nameEn=&nameAr=&serviceId=&subServiceId=  `)
         .then(res => {
           this.$vs.loading.close();
           this.works = res.data.data;

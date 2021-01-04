@@ -22,7 +22,7 @@
             class="truncate font-semibold mb-1 hover:text-primary cursor-pointer"
           >{{ item.name }}</h6>
           <!-- <p class="item-description truncate text-sm">{{ item.nameAr }}</p> -->
-          <p class="item-description truncate text-sm">{{ item.descAr }}</p>
+          <p class="item-description truncate text-sm">{{ item.descAr||item.nameAr }}</p>
         </div>
       </div>
 

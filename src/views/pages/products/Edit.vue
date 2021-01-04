@@ -5,7 +5,8 @@
       vs-justify="center"
       vs-align="center"
       vs-lg="9"
-      vs-sm="12" v-if="product!=null"
+      vs-sm="12"
+      v-if="product != null"
     >
       <vs-card>
         <div slot="header" class>
@@ -67,12 +68,22 @@
           <span class="text-danger text-sm" v-show="errors.has('nameEn')">{{
             errors.first("nameEn")
           }}</span>
+          <vs-input
+            autocomplete="off"
+            v-validate="'required'"
+            name="link"
+            label-placeholder="رابط المشروع "
+            v-model="product.link"
+            class="w-full sm:w-1/3 m-2"
+          />
+          <span class="text-danger text-sm" v-show="errors.has('link')">{{
+            errors.first("link")
+          }}</span>
           <div class="w-full"></div>
           <div class="w-full sm:w-1/3 m-2">
             <div class="vs-row">
               <vs-textarea
                 autocomplete="off"
-                v-validate="'required'"
                 name="descAr"
                 placeholder="الوصف باللغة العربية"
                 v-model="product.descAr"
@@ -88,7 +99,6 @@
             <div class="vs-row">
               <vs-textarea
                 autocomplete="off"
-                v-validate="'required'"
                 name="descEn"
                 placeholder="الوصف باللغة الإنجليزية"
                 v-model="product.descEn"
@@ -116,42 +126,42 @@
                 >cloud_upload</i
               >
             </button>
-            <img :src="product.image" style="max-width: 100%; max-height: 80%" />
+            <img
+              :src="product.image"
+              style="max-width: 100%; max-height: 80%"
+            />
           </div>
         </div>
-          <div class="vx-row">
-            <div class="vx-col w-full">
-              <div class="flex flex-wrap items-start mb-4">
-                <vs-button
-                  class="mr-4 mb-4"
-                  icon-pack="feather"
-                  icon="icon-edit"
-                  @click="uploadImage()"
-                  >تعديل</vs-button
-                >
+        <div class="vx-row">
+          <div class="vx-col w-full">
+            <div class="flex flex-wrap items-start mb-4">
+              <vs-button
+                class="mr-4 mb-4"
+                icon-pack="feather"
+                icon="icon-edit"
+                @click="uploadImage()"
+                >تعديل</vs-button
+              >
 
-                <vs-button
-                  class="mr-4 mb-4"
-                  icon-pack="feather"
-                  icon="icon-trash-2"
-                  color="danger"
-                  @click="deleteProduct"
-                  >حذف</vs-button
-                >
-                <vs-button
-                  class="mb-4"
-                  icon-pack="feather"
-                  icon="icon-x"
-                  color="success"
-                  @click="
-                    $router.push({ path: '/products' }).catch((err) => {})
-                  "
-                  >إلغاء</vs-button
-                >
-              </div>
+              <vs-button
+                class="mr-4 mb-4"
+                icon-pack="feather"
+                icon="icon-trash-2"
+                color="danger"
+                @click="deleteProduct"
+                >حذف</vs-button
+              >
+              <vs-button
+                class="mb-4"
+                icon-pack="feather"
+                icon="icon-x"
+                color="success"
+                @click="$router.push({ path: '/products' }).catch((err) => {})"
+                >إلغاء</vs-button
+              >
             </div>
           </div>
-
+        </div>
       </vs-card>
     </vs-col>
   </vs-row>
@@ -211,8 +221,12 @@ export default {
       this.product.image = URL.createObjectURL(this.photo);
     },
     async uploadImage() {
-      this.$vs.loading();
-      if (this.photo != null&&!this.product.image.includes("res.cloudinary.com")) {
+      if (
+        this.photo != null &&
+        !this.product.image.includes("res.cloudinary.com")
+      ) {
+        this.$vs.loading();
+
         let form_data = new FormData();
         form_data.append("image", this.photo);
         await axiosApi
@@ -225,15 +239,19 @@ export default {
             this.updateProduct();
           })
           .catch((e) => {
+            this.$vs.loading();
+
             console.log(e);
           });
-      } 
-      else if (this.photo == null&& this.product.image.includes("res.cloudinary.com")){
-            this.updateProduct();
+      } else if (
+        this.photo == null &&
+        this.product.image.includes("res.cloudinary.com")
+      ) {
+        this.$vs.loading();
 
-      }
-      else {
-              this.$vs.loading.close();
+        this.updateProduct();
+      } else {
+        this.$vs.loading.close();
 
         this.$vs.notify({
           title: "ًعفوا",
@@ -247,8 +265,8 @@ export default {
     },
     updateProduct() {
       this.$validator.validateAll().then((result) => {
-        if (result ) {
-              this.product.serviceId = this.category._id;
+        if (result) {
+          this.product.serviceId = this.category._id;
           this.product.subServiceId = this.subCategory._id;
           axiosApi
             .patch(`/works/${this.product._id}`, this.product)
@@ -280,6 +298,8 @@ export default {
               console.log(e);
             });
         } else {
+          this.$vs.loading();
+
           this.$vs.notify({
             title: "ًعفوا",
             text: "من فضلك املاء كل البيانات  ",
@@ -344,10 +364,9 @@ export default {
         .then((res) => {
           this.$vs.loading.close();
           this.product = res.data.data;
+
           this.getcategories();
-          this.getSubcategories(this.product.serviceId);
-          
-        
+          this.getSubcategories((this.product&&this.product.serviceId)._id);
         })
         .catch((e) => {
           this.$vs.loading.close();
@@ -361,7 +380,7 @@ export default {
         console.log(response.data.data);
         this.subCategories = response.data.data;
         this.subCategory =
-          this.subCategories.find((e) => e._id == this.product.subServiceId) ||
+          this.subCategories.find((e) => e._id == (this.product&&this.product.subServiceId)._id) ||
           null;
         this.$vs.loading.close();
       });
@@ -373,7 +392,9 @@ export default {
         .get(`service`)
         .then((response) => {
           this.categories = response.data.data;
-          this.category=this.categories.find(e=>e._id==this.product.serviceId)
+          this.category = this.categories.find(
+            (e) => e._id == (this.product&&this.product.serviceId)._id
+          );
 
           this.$vs.loading.close();
         })
